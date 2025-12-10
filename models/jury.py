@@ -2,10 +2,8 @@
 
 from dataclasses import dataclass, field
 from typing import Optional, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from models.person import Person
-    from models.vote import Vote
+from models.person import Person
+from models.vote import Vote
 
 
 @dataclass
