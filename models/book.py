@@ -39,9 +39,9 @@ class Book:
     publisher_price: float
     story_characters: list[StoryCharacter] = field(default_factory=list, init=False)
     sessions: list[Session] = field(default_factory=list, init=False)
-    publisher: Optional[Publisher]
-    author: Optional[Author]
     votes: list[Vote] = field(default_factory=list, init=False)
+    publisher: Optional[Publisher] = field(default=None, init=False)
+    author: Optional[Author] = field(default=None, init=False)
 
     def set_publisher(self, publisher: Publisher) -> None:
         """set :
@@ -86,7 +86,6 @@ class Book:
                 f"Release date : {self.release_date}\n"
                 f"N of pages : {self.pages_nb}\n"
                 f"ISBN : {self.ISBN}\n"
-                f"Publisher price : {self.publisher_price}\n"
-                f"Publisher : {self.publisher.name}\n")
+                f"Publisher price : {self.publisher_price}\n")
 
 
