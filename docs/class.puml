@@ -37,7 +37,7 @@ class Book #LightYellow{
 class Session #LightGreen{
     -int : id_session
     -date : selection_date
-    -str : nom_session
+    -str : session_name
     -bool : voting
 }
 
