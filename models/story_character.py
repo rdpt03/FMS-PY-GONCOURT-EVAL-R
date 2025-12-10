@@ -21,7 +21,7 @@ class StoryCharacter:
     name: str
     role: str
     description: str
-    book: Optional[Book]
+    book: Optional[Book] = field(default=None, init=False)
 
     #to complete
     def set_book(self, book: Book) -> None:
@@ -32,8 +32,8 @@ class StoryCharacter:
         book.story_characters.append(self)
 
     def __str__(self):
-        return (f"character's name : {self.name}"
-                f"character's role : {self.role}"
-                f"chatacter's description : {self.role}")
+        return (f"character's name : {self.name}\n"
+                f"character's role : {self.role}\n"
+                f"chatacter's description : {self.description}\n\n")
 
 
