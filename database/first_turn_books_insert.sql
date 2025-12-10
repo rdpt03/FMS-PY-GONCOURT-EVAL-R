@@ -1,4 +1,4 @@
-INSERT INTO session (selection_date, voting) VALUES ("2025-09-03",FALSE,"Premiere sélection du prix Goncourt 2025")
+INSERT INTO session (selection_date, voting,session_name) VALUES ("2025-09-03",FALSE,"Premiere sélection du prix Goncourt 2025");
 
 INSERT INTO session_have_book (id_session,id_book) VALUES 
 	(1,1),
