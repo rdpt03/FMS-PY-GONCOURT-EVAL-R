@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/class-diagram
+top to bottom direction
+
+
+class Person #LightBlue{
+    -int : id_person
+    -str : firstname
+    -str : lastname
+    -date : born_date
+}
+
+class Jury #LightBlue{
+    -int : id_jury
+}
+
+class President #LightBlue{
+    -int : id_president
+}
+
+class Author #LightBlue{
+    -int : id_author
+    -str : biography
+}
+
+class Book #LightYellow{
+    -int : id_book
+    -str : title
+    -str : summary
+    -date : release_date
+    -int : pages_nb
+    -str : ISBN
+    -float : publisher_price
+
+}
+
+class Session #LightGreen{
+    -int : id_session
+    -date : selection_date
+    -str : nom_session
+    -bool : voting
+}
+
+class StoryCharacter #LightYellow{
+    -int : id_character
+    -str : name
+    -str : role
+    -str : description
+}
+
+class Publisher #LightYellow{
+    -int : id_publisher
+    -str : name
+}
+
+class Vote #LightGreen{
+    -int : id_vote
+    -date : vote_date
+}
+
+'heritage
+Jury --|> Person
+Author --|> Person
+President --|> Jury
+
+'from vote
+Jury "1"--"*" Vote
+Session "1"--"*" Vote
+Vote "*" -- "1" Book
+
+'Livre
+Book "1.*"--"*" Session
+Author "1"--"*" Book
+Publisher "1"--"*" Book
+Book "1"--"*" StoryCharacter
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+
+'https://plantuml.com/use-case-diagram
+left to right direction
+actor :Président: as President
+actor :Membre du jury: as MembreJury <<future>>
+actor :Utilisateur: as Utilisateur
+
+
+
+
+
+
+Package System{
+    ' --- Consultation ---
+    Utilisateur --> (consulter la liste de livres)
+
+    (consulter la liste de livres) --> (consulter livres 1ère sélection)
+    (consulter la liste de livres) --> (consulter livres 2ème sélection)
+    (consulter la liste de livres) --> (consulter livres 3ème sélection)
+
+    (consulter livres 1ère sélection) --> (consulter les details du livre)
+    (consulter livres 2ème sélection) --> (consulter les details du livre)
+    (consulter livres 3ème sélection) --> (consulter les details du livre)
+
+    President --> (lister les votes)
+    (lister les votes) --> (lister les vainqueurs)
+
+    ' --- Indication ---
+    President --> (indiquer les votes du 2eme tour)
+    President --> (indiquer les votes du 3eme tour)
+
+    (indiquer les votes du 2eme tour) --> (indiquer les livres pour le 3eme tour)
+    (indiquer les votes du 3eme tour) --> (indiquer le vainqueur)
+
+    MembreJury -|> Utilisateur
+    President -|> Utilisateur
+}
+
+@enduml
