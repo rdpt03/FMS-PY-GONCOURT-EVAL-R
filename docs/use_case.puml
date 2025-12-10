@@ -34,7 +34,7 @@ Package System{
     (indiquer les votes du 3eme tour) --> (indiquer le vainqueur)
 
     MembreJury -|> Utilisateur
-    President -|> Utilisateur
+    President -|> MembreJury
 }
 
 @enduml
