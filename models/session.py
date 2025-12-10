@@ -53,12 +53,8 @@ class Session:
 
 
     def __str__(self):
-        return (f"Book's name  : {self.title}\n"
-                f"Summary: {self.summary}\n"
-                f"Release date : {self.release_date}\n"
-                f"N of pages : {self.pages_nb}\n"
-                f"ISBN : {self.ISBN}\n"
-                f"Publisher price : {self.publisher_price}\n"
-                f"Publisher : {self.publisher.name}\n")
+        return (f"Session's name  : {self.session_name}\n"
+                f"Selection date: {self.selection_date}\n"
+                f"Voting state : {'Active' if self.voting else 'Ended'}\n")
 
 
