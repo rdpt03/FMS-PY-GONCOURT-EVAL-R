@@ -24,8 +24,8 @@ class Vote:
 
     id: Optional[int] = field(default=None, init=False)
     session : Optional[Session]
-    book: Optional[Book]
-    jury: Optional[Jury]
+    book: Optional[Book] = field(default=None, init=False)
+    jury: Optional[Jury] = field(default=None, init=False)
 
     def set_book(self, book: Book) -> None:
         """
