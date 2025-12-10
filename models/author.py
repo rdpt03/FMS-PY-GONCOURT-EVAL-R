@@ -5,10 +5,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, TYPE_CHECKING
 from datetime import date
-
-if TYPE_CHECKING:
-    from models.book import Book
-    from models.person import Person
+from models.person import Person
+from models.book import Book
 
 
 @dataclass
