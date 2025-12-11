@@ -27,11 +27,14 @@ Package System{
     (lister les votes) --> (lister les vainqueurs)
 
     ' --- Indication ---
-    President --> (indiquer les votes du 2eme tour)
-    President --> (indiquer les votes du 3eme tour)
+    President --> (indiquer les votes de la 2eme session)
+    President --> (indiquer les votes de la 3eme session)
 
-    (indiquer les votes du 2eme tour) --> (indiquer les livres pour le 3eme tour)
-    (indiquer les votes du 3eme tour) --> (indiquer le vainqueur)
+    (indiquer les votes de la 2eme session) --> (indiquer les livres de la 3eme session)
+    (indiquer les votes de la 3eme session) --> (indiquer le vainqueur)
+
+    (indiquer les votes de la 3eme session) -->(créer une session)
+    President -->(créer une session)
 
     MembreJury -|> Utilisateur
     President -|> MembreJury
