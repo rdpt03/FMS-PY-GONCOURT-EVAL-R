@@ -1,6 +1,5 @@
 from typing import Optional, List
 
-from daos.book_dao import BookDao
 from daos.dao import Dao
 from models.story_character import StoryCharacter
 
