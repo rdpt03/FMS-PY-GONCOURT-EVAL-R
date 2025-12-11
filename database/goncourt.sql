@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 11 déc. 2025 à 22:46
+-- Généré le : jeu. 11 déc. 2025 à 22:53
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -209,6 +209,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   `voting` tinyint(1) DEFAULT NULL,
   `session_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `n_of_winners` int DEFAULT NULL,
+  `session_n` int DEFAULT NULL,
   PRIMARY KEY (`id_session`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -216,8 +217,8 @@ CREATE TABLE IF NOT EXISTS `session` (
 -- Déchargement des données de la table `session`
 --
 
-INSERT INTO `session` (`id_session`, `selection_date`, `voting`, `session_name`, `n_of_winners`) VALUES
-(1, '2025-09-03', 0, 'Premiere sélection du prix Goncourt 2025', 8);
+INSERT INTO `session` (`id_session`, `selection_date`, `voting`, `session_name`, `n_of_winners`, `session_n`) VALUES
+(1, '2025-09-03', 0, 'Premiere sélection du prix Goncourt 2025', 8, 1);
 
 -- --------------------------------------------------------
 
