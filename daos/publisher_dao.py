@@ -27,7 +27,8 @@ class PublisherDao(Dao[Publisher]):
             sql = "INSERT INTO publisher (name) VALUES (%s);"
             cursor.execute(sql, (publisher.name,))
             Dao.connection.commit()
-            return cursor.lastrowid
+            publisher.id = cursor.lastrowid
+        return publisher.id
 
     def read(self, id_publisher: int) -> Optional[Publisher]:
         """Return the Publisher object for the given id, or None"""
