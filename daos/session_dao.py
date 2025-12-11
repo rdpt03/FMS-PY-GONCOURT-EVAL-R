@@ -1,4 +1,4 @@
-from typing import Optional, List, TYPE_CHECKING
+from typing import Optional, List
 
 from daos.book_dao import BookDao
 from daos.dao import Dao
@@ -82,6 +82,7 @@ class SessionDao(Dao[Session]):
 
     def get_session_books(self, session : Session) -> List[Book]:
         return BookDao().read_by_session_id(session.id)
+
 
     def get_session_votes(self, session : Session) -> List[Vote]:
         from daos.vote_dao import VoteDao
