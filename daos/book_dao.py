@@ -1,5 +1,7 @@
 from typing import Optional, List, TYPE_CHECKING
 
+from daos.publisher_dao import PublisherDao
+from daos.story_character_dao import StoryCharacterDao
 from models.author import Author
 from models.book import Book
 from daos.dao import Dao
@@ -16,6 +18,11 @@ class BookDao(Dao[Book]):
             book_oop = Book(sql_book['title'], sql_book['summary'], sql_book['release_date'], sql_book['pages_nb'],
                             sql_book['ISBN'], sql_book['publisher_price'])
             book_oop.id = sql_book['id_book']
+            #get book publisher
+            book_oop.publisher = PublisherDao().read(sql_book['id_publisher'])
+            #get book author
+            book_oop.author = AuthorDao().read(sql_book['id_author'])
+            book_oop.story_characters = StoryCharacterDao().read_all_by_book(book_oop)
         return book_oop
 
 
@@ -38,7 +45,7 @@ class BookDao(Dao[Book]):
                 "SELECT id_book, title, summary, release_date, pages_nb, ISBN, publisher_price, id_author, id_publisher FROM book"
                 " WHERE id_book = %s;")
             cursor.execute(sql, (id_book,))
-            book_sql = cursor.fetchall()
+            book_sql = cursor.fetchone()
 
 
 
@@ -89,6 +96,25 @@ class BookDao(Dao[Book]):
             sql = (
                 "SELECT id_book, title, summary, release_date, pages_nb, ISBN, publisher_price, id_author, id_publisher FROM book WHERE id_author = %s;")
             cursor.execute(sql, (author.id,))
+            sql_book_list = cursor.fetchall()
+
+            # transform into oop
+            if sql_book_list:
+                # for each
+                for book_sql in sql_book_list:
+                    # add to list
+                    oop_book_list.append(self.book_sql_too_oop(book_sql))
+        return oop_book_list
+
+    def read_by_session_id(self, session_id) -> List[Book]:
+
+        # create list
+        oop_book_list = list()
+        # open connection
+        with Dao.connection.cursor() as cursor:
+            # command, execute and get
+            sql = ("SELECT * FROM book b INNER JOIN session_have_book shb ON shb.id_book = b.id_book INNER JOIN session s ON s.id_session = shb.id_session WHERE s.id_session = %s;")
+            cursor.execute(sql, (session_id,))
             sql_book_list = cursor.fetchall()
 
             # transform into oop
