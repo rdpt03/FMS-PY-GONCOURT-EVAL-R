@@ -39,6 +39,8 @@ class Session #LightGreen{
     -date : selection_date
     -str : session_name
     -bool : voting
+    -int : n_of_winners
+    -int : session_n
 }
 
 class StoryCharacter #LightYellow{

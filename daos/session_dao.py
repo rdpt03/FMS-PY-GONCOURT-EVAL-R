@@ -16,7 +16,9 @@ class SessionDao(Dao[Session]):
             oop_session = Session(
                 session_name=session_sql['session_name'],
                 selection_date=session_sql['selection_date'],
-                voting=session_sql['voting']
+                voting=session_sql['voting'],
+                n_of_winners = session_sql['n_of_winners'],
+                session_n = session_sql['session_n']
             )
             oop_session.id = session_sql['id_session']
             #get his books
@@ -33,8 +35,8 @@ class SessionDao(Dao[Session]):
         :return: the id of the inserted entity (0 if failed)
         """
         with Dao.connection.cursor() as cursor:
-            sql = "INSERT INTO session (session_name, selection_date, voting) VALUES (%s, %s, %s);"
-            cursor.execute(sql, (session.session_name, session.selection_date, session.voting))
+            sql = "INSERT INTO session (session_name, selection_date, voting, n_of_winners, session_n) VALUES (%s, %s, %s, %s, %s);"
+            cursor.execute(sql, (session.session_name, session.selection_date, session.voting, session.n_of_winners, session.session_n))
             Dao.connection.commit()
             session.id = cursor.lastrowid
         return session.id
@@ -43,7 +45,7 @@ class SessionDao(Dao[Session]):
     def read(self, id_session: int) -> Optional[Session]:
         """Return the Session object for the given id, or None"""
         with Dao.connection.cursor() as cursor:
-            sql = "SELECT id_session, session_name, selection_date, voting FROM session WHERE id_session = %s;"
+            sql = "SELECT id_session, session_name, selection_date, voting, n_of_winners FROM session WHERE id_session = %s;"
             cursor.execute(sql, (id_session,))
             session_sql = cursor.fetchone()
         return self.session_sql_to_oop(session_sql)
@@ -53,7 +55,7 @@ class SessionDao(Dao[Session]):
         """Return a list of all Session objects"""
         oop_list = []
         with Dao.connection.cursor() as cursor:
-            sql = "SELECT id_session, session_name, selection_date, voting FROM session;"
+            sql = "SELECT id_session, session_name, selection_date, voting, n_of_winners, session_n FROM session;"
             cursor.execute(sql)
             sql_list = cursor.fetchall()
             if sql_list:
@@ -65,8 +67,8 @@ class SessionDao(Dao[Session]):
     def update(self, session: Session) -> bool:
         """Update the Session in the database"""
         with Dao.connection.cursor() as cursor:
-            sql = "UPDATE session SET session_name=%s, selection_date=%s, voting=%s WHERE id_session=%s;"
-            cursor.execute(sql, (session.session_name, session.selection_date, session.voting, session.id))
+            sql = "UPDATE session SET session_name=%s, selection_date=%s, voting=%s, n_of_winners=%s, session_n=%s WHERE id_session=%s;"
+            cursor.execute(sql, (session.session_name, session.selection_date, session.voting, session.n_of_winners, session.session_n, session.id))
             Dao.connection.commit()
             return cursor.rowcount > 0
 
