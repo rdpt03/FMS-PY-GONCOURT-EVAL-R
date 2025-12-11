@@ -69,6 +69,8 @@ CREATE TABLE session (
     selection_date DATE,
     voting bool,
     session_name VARCHAR(50),
+    n_of_winners INT,
+    session_n INT,
 	CONSTRAINT pk_person PRIMARY KEY (id_session) 
 ) ENGINE=InnoDB;
 
