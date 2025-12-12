@@ -6,8 +6,7 @@ from models.author import Author
 from models.book import Book
 from daos.dao import Dao
 from daos.author_dao import AuthorDao
-
-
+from models.session import Session
 
 
 class BookDao(Dao[Book]):
@@ -124,3 +123,19 @@ class BookDao(Dao[Book]):
                     # add to list
                     oop_book_list.append(self.book_sql_too_oop(book_sql))
         return oop_book_list
+
+    def associate_book_to_session(self,book : Book,session : Session):
+        """Create a association between book and session
+
+                :param book: the book to associate
+                :param session: the session to associate
+                :return:
+                """
+        # Example implementation
+        with Dao.connection.cursor() as cursor:
+            sql = "INSERT INTO session_have_book (id_session,id_book) VALUES (%s, %s);"
+            cursor.execute(sql, (session.id, book.id,))
+            Dao.connection.commit()
+
+            #add to the lists
+            book.add_session(session)
