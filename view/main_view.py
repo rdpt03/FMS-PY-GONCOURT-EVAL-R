@@ -1,11 +1,13 @@
 from business.goncourt import Goncourt
-from view import invited_view, components
+from view import components
+from view.invited_view import InvitedView
 from view.president_view import PresidentView
 
 
 def menu_main(goncourt : Goncourt):
     #add invited view
     president_view = PresidentView(goncourt)
+    invited_view = InvitedView(goncourt)
 
     while menu_main:
         # initial
@@ -19,7 +21,7 @@ def menu_main(goncourt : Goncourt):
 
         # option 1 for invited
         if chosen_option == "1":
-            invited_view.invited_menu_choose_option(goncourt)
+            invited_view.invited_menu_choose_option()
 
         # option 2 for jury
         elif chosen_option == "2":
