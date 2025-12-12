@@ -23,7 +23,7 @@ class Vote:
     """
 
     id: Optional[int] = field(default=None, init=False)
-    session : Optional[Session]
+    session : Optional[Session] = field(default=None, init=False)
     book: Optional[Book] = field(default=None, init=False)
     jury: Optional[Jury] = field(default=None, init=False)
 
