@@ -45,7 +45,7 @@ class SessionDao(Dao[Session]):
     def read(self, id_session: int) -> Optional[Session]:
         """Return the Session object for the given id, or None"""
         with Dao.connection.cursor() as cursor:
-            sql = "SELECT id_session, session_name, selection_date, voting, n_of_winners FROM session WHERE id_session = %s;"
+            sql = "SELECT id_session, session_name, selection_date, voting, n_of_winners, session_n FROM session WHERE id_session = %s;"
             cursor.execute(sql, (id_session,))
             session_sql = cursor.fetchone()
         return self.session_sql_to_oop(session_sql)
@@ -94,3 +94,12 @@ class SessionDao(Dao[Session]):
         for vote in votes:
             vote.session = session
         return votes
+
+    def associate_book_to_session(self, book: Book, session: Session):
+        """Create a association between book and session (link to BookDao function)
+
+                :param book: the book to associate
+                :param session: the session to associate
+                :return:
+                """
+        BookDao().associate_book_to_session(book,session)
