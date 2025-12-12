@@ -1,9 +1,15 @@
+from typing import List
+
 from business.goncourt import Goncourt
+from daos.book_dao import BookDao
+from daos.vote_dao import VoteDao
+from models.book import Book
 from models.session import Session
+from models.vote import Vote
 from view import components
 
 class PresidentView:
-    def __init__(self, goncourt):
+    def __init__(self, goncourt : Goncourt):
         self.gc = goncourt
         self.SECOND_SELECTION_PLACES = 8
         self.THIRD_SELECTION_PLACES = 4
@@ -25,11 +31,11 @@ class PresidentView:
 
             # option 2 for jury
             elif chosen_option == "2":
-                ...
+                self.create_new_session()
 
             # option 3 for director
             elif chosen_option == "3":
-                ...
+                menu_main = False
 
             # default
             else:
@@ -90,7 +96,81 @@ class PresidentView:
             else:
                 print('Felicitations')
         else:
-            print('Felicitations')
+            if session.votes:
+                ...
+                #future to do automatically create from these results the next round
+            else:
+                print("Pas encore de votes, voulez vous enregistrer des votes? (o/n)")
+                reply = input('Reponse ->')
+                if reply.lower() in ['o','ouais','oui','y','yes','yessir']:
+                    for book in session.books:
+                        vote_nb = components.ask_int(f'Inserer la quantité de votes pour  {book.title}')
+                        for i in range(1,vote_nb+1):
+                            self.gc.create_vote(session,book)
 
-    def create_new_session(self, param):
-        pass
+
+
+    def create_new_session(self, n_of_winners_param : int = None, books_list_param : List[Book] = None ):
+        #ask details
+        name = input("Inserer le nom -> ")
+        session_n = components.ask_int('Inserer le numero de la session [1,2,3] ',[1,2,3])
+        selection_date = components.ask_date("Inserer la date prevue pour le vote ")
+        #handle n_of_winners
+        n_of_winners = -1
+        if not n_of_winners_param:
+            #n_of_winners = components.ask_int("Inserer le numero de vainqueurs souhaité\n 8 pour session 1,\n4 pour session 2,\n1 pour session 3",[8,4,1])
+            if session_n == 1:
+                n_of_winners = 8
+            elif session_n == 2:
+                n_of_winners = 4
+            elif session_n == 3:
+                n_of_winners = 1
+        else:
+            n_of_winners = n_of_winners_param
+
+        voting = False #to be implemented when jury will be, for now is false
+
+        #create session
+        session = self.gc.create_session(Session(session_name=name,
+                                       session_n=session_n,
+                                       selection_date=selection_date,
+                                       n_of_winners=n_of_winners,
+                                       voting=voting))
+        if not books_list_param:
+            #handle add books
+            list_of_books = self.gc.books
+
+            #print
+            for book in list_of_books:
+                print(f'{book.title} - {book.id}')
+            #get correct participants numbers
+            participants = -1
+            if session.session_n == 1:
+                participants = 15
+            elif session.session_n == 2:
+                participants = 8
+            elif session.session_n == 3:
+                participants = 4
+            #get result
+            books_ids = input(f"Inserer les livres jusqa'a {participants} livres [separé par -] ou TOUT pour touts les livres").split('-')
+
+            #for each turn
+            if len(books_ids) == participants:
+                for bid in books_ids:
+                    #check if correct digit
+                    if bid.isdigit():#digit
+                        #get book
+                        book = self.gc.get_book_by_id(int(bid))
+                        #if book is get
+                        if book:
+                            self.gc.associate_book_session(book,session)
+                            print(f'le livre {book.id} à été ajouté')
+                        else:
+                            print(f'Le livre {bid} n\'existe pas')
+                    else:
+                        print(f'{bid} n\'est pas un numero valide')
+            else:
+                print('numero de participants incorrect')
+        else:
+            for book in books_list_param:
+                self.gc.associate_book_session(book, session)
