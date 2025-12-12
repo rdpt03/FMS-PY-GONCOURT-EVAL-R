@@ -13,7 +13,7 @@ class VoteDao(Dao[Vote]):
         """Convert SQL result to Vote object"""
         oop_vote = None
         if vote_sql:
-            oop_vote = Vote(None)
+            oop_vote = Vote()
             oop_vote.id = vote_sql['id_vote']
             oop_vote.book=BookDao().read(vote_sql['id_book'])
             oop_vote.jury=JuryDao().read(vote_sql['id_jury'])
@@ -21,7 +21,7 @@ class VoteDao(Dao[Vote]):
         return oop_vote
 
 
-    def create(self, vote: Vote) -> int:
+    def create(self, vote: Vote) -> Optional[Vote]:
         """Create a vote in the database"""
         with Dao.connection.cursor() as cursor:
             sql = "INSERT INTO vote (id_jury, id_book, id_session) VALUES (%s, %s, %s);"
@@ -30,7 +30,7 @@ class VoteDao(Dao[Vote]):
                                  vote.session.id if vote.session else None))
             Dao.connection.commit()
             vote.id = cursor.lastrowid
-        return vote.id
+        return vote
 
 
     def read(self, id_vote: int) -> Optional[Vote]:
